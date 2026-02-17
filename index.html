@@ -1,0 +1,459 @@
+<html lang="en" vid="0"><head vid="1">
+    <meta charset="UTF-8" vid="2">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" vid="3">
+    <title vid="4">SYSTEM INITIALIZING // TERMINALLY ONLINE</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" vid="5">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" vid="6">
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&amp;family=Space+Mono:ital,wght@0,400;0,700;1,400&amp;display=swap" rel="stylesheet" vid="7">
+    <style vid="8">
+        :root {
+            --bg-color: #050505;
+            --paper-color: #A8E000; 
+            --ink-color: #12140A;   
+            --border-style: 2px dashed var(--ink-color);
+            --border-solid: 3px solid var(--ink-color);
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--ink-color);
+            font-family: 'Space Mono', monospace;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .noise-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.15;
+            background: url('data:image/svg+xml;utf8,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)"/%3E%3C/svg%3E');
+        }
+
+        .artifact-container {
+            width: 1440px;
+            height: 1024px;
+            background-color: var(--paper-color);
+            position: relative;
+            box-shadow: 0 0 50px rgba(226, 240, 99, 0.1);
+            display: grid;
+            grid-template-columns: 60px 1fr 60px;
+            animation: subtleShake 0.15s steps(2) infinite;
+        }
+
+        @keyframes subtleShake {
+            0%, 90% { transform: translate(0, 0); }
+            91% { transform: translate(0.5px, -0.5px); }
+            93% { transform: translate(-0.5px, 0.5px); }
+            95% { transform: translate(0.5px, 0); }
+            97%, 100% { transform: translate(0, 0); }
+        }
+
+        .notch {
+            position: absolute;
+            background-color: var(--bg-color);
+            border-radius: 50%;
+            z-index: 10;
+        }
+        .notch-tl { top: -30px; left: -30px; width: 60px; height: 60px; }
+        .notch-tr { top: -30px; right: -30px; width: 60px; height: 60px; }
+        .notch-bl { bottom: -30px; left: -30px; width: 60px; height: 60px; }
+        .notch-br { bottom: -30px; right: -30px; width: 60px; height: 60px; }
+        .notch-mid-l { top: 50%; left: -25px; width: 50px; height: 80px; border-radius: 40px; transform: translateY(-50%); }
+        .notch-mid-r { top: 50%; right: -25px; width: 50px; height: 80px; border-radius: 40px; transform: translateY(-50%); }
+
+        .gutter {
+            border-right: var(--border-style);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 0;
+        }
+        .gutter.right {
+            border-right: none;
+            border-left: var(--border-style);
+        }
+        .vertical-text {
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            white-space: nowrap;
+            transform: rotate(180deg);
+        }
+
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        header {
+            border-bottom: var(--border-style);
+            padding: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .brand-block h1 {
+            font-family: 'Archivo Black', sans-serif;
+            text-transform: uppercase;
+            font-size: 2rem;
+            line-height: 0.9;
+            margin: 0;
+            transform: scaleX(1.1); 
+            transform-origin: left;
+        }
+
+        .loading-hero {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            padding: 4rem;
+        }
+
+        .scanline-effect {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 10px;
+            background: rgba(18, 20, 10, 0.1);
+            animation: scan 3s linear infinite;
+            z-index: 1;
+        }
+
+        @keyframes scan {
+            0% { top: 0; }
+            100% { top: 100%; }
+        }
+
+        .initializing-msg {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 6rem;
+            text-transform: uppercase;
+            line-height: 0.85;
+            text-align: center;
+            margin-bottom: 3rem;
+            transform: scaleX(1.1);
+            animation: subtleGlitch 5s steps(2) infinite;
+            position: relative;
+        }
+
+        .initializing-msg::before,
+        .initializing-msg::after {
+            content: 'TERMINALLY ONLINE SOLUTIONS';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+        }
+
+        .initializing-msg::before {
+            animation: staticFlicker1 0.5s steps(1) infinite;
+            text-shadow: 1px 0 0 var(--ink-color);
+        }
+
+        .initializing-msg::after {
+            animation: staticFlicker2 0.6s steps(1) infinite;
+            text-shadow: -1px 0 0 var(--ink-color);
+        }
+
+        @keyframes subtleGlitch {
+            0%, 94% { transform: scaleX(1.1); }
+            95% { transform: scaleX(1.1) translate(1px, 0); }
+            96% { transform: scaleX(1.1) translate(-1px, 0); }
+            97% { transform: scaleX(1.1) translate(0, 1px); }
+            98%, 100% { transform: scaleX(1.1); }
+        }
+
+        @keyframes staticFlicker1 {
+            0%, 88% { opacity: 0; }
+            89%, 91% { opacity: 0.08; }
+            92%, 100% { opacity: 0; }
+        }
+
+        @keyframes staticFlicker2 {
+            0%, 85% { opacity: 0; }
+            86%, 88% { opacity: 0.06; }
+            89%, 100% { opacity: 0; }
+        }
+
+        .progress-block {
+            width: 60%;
+            max-width: 800px;
+            border: 4px solid var(--ink-color);
+            padding: 4px;
+            position: relative;
+            overflow: hidden;
+            animation: explodeBlock 0.5s 4s forwards;
+        }
+
+        @keyframes explodeBlock {
+            0% { 
+                transform: scale(1);
+                opacity: 1;
+                border-color: var(--ink-color);
+            }
+            50% { 
+                transform: scale(1.2);
+                opacity: 0.6;
+                border-color: transparent;
+            }
+            100% { 
+                transform: scale(2);
+                opacity: 0;
+                border-color: transparent;
+            }
+        }
+
+        .progress-bar {
+            height: 60px;
+            background: var(--ink-color);
+            width: 0%;
+            animation: fillProgress 4s cubic-bezier(0.65, 0, 0.35, 1) 1, explodeBar 0.5s 4s forwards;
+        }
+
+        @keyframes fillProgress {
+            0% { width: 0%; }
+            20% { width: 15%; }
+            40% { width: 45%; }
+            50% { width: 48%; }
+            70% { width: 85%; }
+            100% { width: 100%; }
+        }
+
+        @keyframes explodeBar {
+            0% { 
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% { 
+                transform: scale(1.5, 3);
+                opacity: 0.8;
+            }
+            100% { 
+                transform: scale(3, 0.5);
+                opacity: 0;
+            }
+        }
+
+        .cat-particle {
+            position: absolute;
+            font-size: 2rem;
+            animation: catExplode 1.5s ease-out forwards;
+            opacity: 0;
+        }
+
+        @keyframes catExplode {
+            0% {
+                opacity: 1;
+                transform: translate(0, 0) rotate(0deg) scale(0.5);
+            }
+            50% {
+                opacity: 1;
+                transform: translate(var(--tx), var(--ty)) rotate(360deg) scale(1.2);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(calc(var(--tx) * 2), calc(var(--ty) * 2)) rotate(720deg) scale(0.8);
+            }
+        }
+
+        .status-feed {
+            margin-top: 3rem;
+            width: 60%;
+            max-width: 800px;
+            font-size: 0.9rem;
+            font-weight: 700;
+        }
+
+        .feed-line {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px dashed var(--ink-color);
+            animation: blink 0.5s step-end infinite alternate;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0.5; }
+        }
+
+        .matrix-deco {
+            position: absolute;
+            bottom: 4rem;
+            left: 4rem;
+            font-size: 0.7rem;
+            opacity: 0.4;
+            line-height: 1.2;
+        }
+
+        .stamp-loading {
+            position: absolute;
+            top: 50%;
+            right: 10%;
+            border: 4px double var(--ink-color);
+            padding: 1rem;
+            transform: rotate(15deg) translateY(-50%);
+            font-family: 'Archivo Black';
+            text-transform: uppercase;
+            font-size: 2rem;
+            opacity: 0.3;
+        }
+
+        footer {
+            border-top: var(--border-style);
+            padding: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .barcode-block {
+            height: 60px;
+            width: 300px;
+            background: repeating-linear-gradient(
+                90deg,
+                var(--ink-color),
+                var(--ink-color) 4px,
+                transparent 4px,
+                transparent 8px,
+                var(--ink-color) 10px,
+                var(--ink-color) 18px,
+                transparent 18px,
+                transparent 22px
+            );
+        }
+    </style>
+</head>
+<body vid="9">
+
+    <div class="noise-overlay" vid="10"></div>
+
+    <div class="artifact-container" vid="11">
+        <div class="notch notch-tl" vid="12"></div>
+        <div class="notch notch-tr" vid="13"></div>
+        <div class="notch notch-bl" vid="14"></div>
+        <div class="notch notch-br" vid="15"></div>
+        <div class="notch notch-mid-l" vid="16"></div>
+        <div class="notch notch-mid-r" vid="17"></div>
+
+        <div class="gutter" vid="18">
+            <span class="vertical-text" vid="19">BOOT SEQUENCE // AUTH_REQUIRED</span>
+        </div>
+
+        <main class="main-content" vid="20">
+            <header vid="21">
+                <div class="brand-block" vid="22">
+                    
+                </div>
+                <div class="meta-data" style="text-align: right;" vid="23">
+                    <div style="font-weight: 700; font-size: 0.8rem;" vid="24">KERNEL: V.2.0.24</div>
+                    <div style="font-size: 0.7rem;" vid="25">MEM_ALLOC: 4096GB/SEC</div>
+                </div>
+            </header>
+
+            <section class="loading-hero" vid="26">
+                <div class="scanline-effect" vid="27"></div>
+
+                
+                <h2 class="initializing-msg" vid="28">TERMINALLY<br vid="29">ONLINE<br vid="30">SOLUTIONS</h2>
+                
+                <div class="progress-block" vid="31">
+                    <div class="progress-bar" vid="32"></div>
+                </div>
+                <div id="catContainer" style="position: absolute; width: 100%; height: 100%; pointer-events: none;" vid="33"></div>
+                <script vid="34">
+                    setTimeout(() => {
+                        const container = document.getElementById('catContainer');
+                        const cats = ['😸', '😺', '😻', '😽', '🐱', '🐈', '😹', '😼'];
+                        const numCats = 20;
+                        
+                        for (let i = 0; i < numCats; i++) {
+                            const cat = document.createElement('div');
+                            cat.className = 'cat-particle';
+                            cat.textContent = cats[Math.floor(Math.random() * cats.length)];
+                            cat.style.left = '50%';
+                            cat.style.top = '30%';
+                            
+                            const angle = (Math.PI * 2 * i) / numCats;
+                            const distance = 150 + Math.random() * 100;
+                            const tx = Math.cos(angle) * distance;
+                            const ty = Math.sin(angle) * distance;
+                            
+                            cat.style.setProperty('--tx', `${tx}px`);
+                            cat.style.setProperty('--ty', `${ty}px`);
+                            cat.style.animationDelay = `${4 + (i * 0.02)}s`;
+                            
+                            container.appendChild(cat);
+                        }
+                    }, 100);
+                </script>
+
+                <div style="font-family: 'Space Mono', monospace; font-size: 1.2rem; font-weight: 700; text-align: center; margin-top: 2rem;" vid="35">contact: <a href="mailto:crew@terminallyonline.solutions" style="color: inherit; text-decoration: underline;" vid="36">crew@terminallyonline.solutions</a></div>
+
+                <div class="status-feed" vid="37">
+                    <div class="feed-line" vid="38">
+                        <span vid="39">&gt; LOADING MEMETIC VECTORS</span>
+                        <span vid="40">[ OK ]</span>
+                    </div>
+                    <div class="feed-line" vid="41">
+                        <span vid="42">&gt; ENGAGING COMMUNITY PROTOCOLS</span>
+                        <span vid="43">[ IN PROGRESS ]</span>
+                    </div>
+                    <div class="feed-line" vid="44">
+                        <span vid="45">&gt; CALIBRATING VIRAL GROWTH</span>
+                        <span vid="46">[ PENDING ]</span>
+                    </div>
+                </div>
+
+                <div class="matrix-deco" vid="47">
+                    0x0001FF - STACK_TRACE_INIT<br vid="48">
+                    0x0002A1 - BUFFER_CLEAR_SUCCESS<br vid="49">
+                    0x00045B - USER_ATTENTION_HOOKED
+                </div>
+            </section>
+
+            <footer vid="50">
+                <div class="barcode-container" vid="51">
+                    <div class="barcode-block" vid="52"></div>
+                    <div style="font-size: 0.7rem; letter-spacing: 3px; margin-top: 5px;" vid="53">SYS_ID: 992-INIT-001</div>
+                </div>
+                <div class="contact-block" style="display: flex; flex-direction: column; align-items: flex-end; gap: 0.5rem;" vid="54">
+                    <div style="font-family: 'Archivo Black'; font-size: 1rem; transform: scaleX(1.2);" vid="55">CONTACT</div>
+                    <div style="font-weight: 700; font-size: 0.85rem;" vid="56">crew@terminallyonline.solutions</div>
+                </div>
+            </footer>
+        </main>
+
+        <div class="gutter right" vid="57">
+            <span class="vertical-text" vid="58">DECRYPTING PROTOCOL // REF_00</span>
+        </div>
+    </div>
+
+</body></html>
