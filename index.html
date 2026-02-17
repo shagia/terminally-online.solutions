@@ -11,6 +11,7 @@
             --paper-color: #0044FF; 
             --ink-color: #FFFFFF;   
             --border-style: 2px dashed rgba(255, 255, 255, 0.4);
+            --border-solid: 3px solid var(--ink-color);
         }
 
         * {
@@ -25,11 +26,11 @@
             color: var(--ink-color);
             font-family: 'Space Mono', monospace;
             width: 100%;
-            height: 100%;
+            height: 100vh;
             display: flex;
             justify-content: center;
-            align-items: flex-start;
-            overflow-x: hidden;
+            align-items: center;
+            overflow: hidden;
         }
 
         .noise-overlay {
@@ -47,7 +48,8 @@
         .artifact-container {
             width: 100%;
             max-width: 1440px;
-            min-height: 100vh;
+            height: 100vh;
+            max-height: 1024px;
             background-color: var(--paper-color);
             position: relative;
             box-shadow: 0 0 80px rgba(0, 68, 255, 0.3);
@@ -64,7 +66,6 @@
             97%, 100% { transform: translate(0, 0); }
         }
 
-        
         .notch {
             position: absolute;
             background-color: var(--bg-color);
@@ -106,19 +107,16 @@
             display: flex;
             flex-direction: column;
             position: relative;
-            padding: 0;
+            height: 100%;
+            overflow-y: auto;
         }
 
         header {
             border-bottom: var(--border-style);
-            padding: 1.5rem;
+            padding: 2rem;
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-        }
-
-        .meta-data {
-            text-align: right;
         }
 
         .loading-hero {
@@ -129,8 +127,7 @@
             align-items: center;
             position: relative;
             overflow: hidden;
-            padding: 2rem 1.5rem;
-            min-height: 70vh;
+            padding: 2rem;
         }
 
         .scanline-effect {
@@ -155,23 +152,27 @@
             text-transform: uppercase;
             line-height: 0.85;
             text-align: center;
-            margin: 2rem 0;
+            margin-bottom: 2rem;
             transform: scaleX(1.1);
             animation: subtleGlitch 5s steps(2) infinite;
             position: relative;
             color: var(--ink-color);
-            z-index: 2;
         }
 
         .progress-block {
-            width: 100%;
-            max-width: 600px;
+            width: 90%;
+            max-width: 800px;
             border: 4px solid var(--ink-color);
             padding: 4px;
             position: relative;
             overflow: hidden;
             animation: explodeBlock 0.5s 4s forwards;
-            margin: 1.5rem 0;
+        }
+
+        @keyframes explodeBlock {
+            0% { transform: scale(1); opacity: 1; border-color: var(--ink-color); }
+            50% { transform: scale(1.2); opacity: 0.6; border-color: transparent; }
+            100% { transform: scale(2); opacity: 0; border-color: transparent; }
         }
 
         .progress-bar {
@@ -183,33 +184,36 @@
 
         @keyframes fillProgress {
             0% { width: 0%; }
+            20% { width: 15%; }
+            40% { width: 45%; }
+            50% { width: 48%; }
+            70% { width: 85%; }
             100% { width: 100%; }
         }
 
         .status-feed {
-            width: 100%;
-            max-width: 600px;
-            font-size: 0.8rem;
+            margin-top: 2rem;
+            width: 90%;
+            max-width: 800px;
+            font-size: 0.75rem;
             font-weight: 700;
-            margin-top: 1rem;
         }
 
         .feed-line {
             display: flex;
-            flex-wrap: wrap;
             justify-content: space-between;
-            padding: 0.75rem 0;
+            padding: 0.4rem 0;
             border-bottom: 1px dashed rgba(255,255,255,0.3);
-            gap: 10px;
         }
 
         .matrix-deco {
-            margin-top: 2rem;
-            font-size: 0.65rem;
-            opacity: 0.6;
-            line-height: 1.4;
+            position: absolute;
+            bottom: 2rem;
+            left: 2rem;
+            font-size: 0.6rem;
+            opacity: 0.5;
+            line-height: 1.2;
             color: var(--ink-color);
-            text-align: center;
         }
 
         footer {
@@ -224,6 +228,7 @@
         .barcode-block {
             height: 40px;
             width: 100%;
+            max-width: 300px;
             background: repeating-linear-gradient(
                 90deg,
                 var(--ink-color),
@@ -237,7 +242,6 @@
             );
         }
 
-        
         @media (max-width: 768px) {
             .artifact-container {
                 grid-template-columns: 40px 1fr 40px;
@@ -249,22 +253,29 @@
                 font-size: 0.8rem;
                 letter-spacing: 2px;
             }
-            .initializing-msg {
-                font-size: 3rem;
+            .meta-data {
+                display: none;
             }
-            .feed-line {
-                font-size: 0.7rem;
+            header {
+                padding: 1.5rem;
+                justify-content: center;
             }
-            .notch-mid-l, .notch-mid-r {
-                width: 30px;
-                height: 60px;
+            footer {
+                align-items: center;
+                text-align: center;
             }
-            .loading-hero div[style*="font-size: 0.9rem"] {
-                font-size: 0.65rem !important;
+            .contact-block {
+                align-items: center !important;
             }
-            .contact-block div[style*="font-size: 0.75rem"] {
-                font-size: 0.6rem !important;
+            .matrix-deco {
+                display: none;
             }
+        }
+
+        @keyframes explodeBar {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.5, 3); opacity: 0.8; }
+            100% { transform: scale(3, 0.5); opacity: 0; }
         }
 
         .cat-particle {
@@ -277,20 +288,8 @@
 
         @keyframes catExplode {
             0% { opacity: 1; transform: translate(0, 0) rotate(0deg) scale(0.5); }
-            100% { opacity: 0; transform: translate(var(--tx), var(--ty)) rotate(720deg) scale(0.8); }
-        }
-
-        @keyframes explodeBlock {
-            100% { transform: scale(1.5); opacity: 0; }
-        }
-        @keyframes explodeBar {
-            100% { transform: scale(2, 0); opacity: 0; }
-        }
-
-        a {
-            color: #FFFFFF;
-            text-decoration: underline;
-            word-break: break-all;
+            50% { opacity: 1; transform: translate(var(--tx), var(--ty)) rotate(360deg) scale(1.2); }
+            100% { opacity: 0; transform: translate(calc(var(--tx) * 2), calc(var(--ty) * 2)) rotate(720deg) scale(0.8); }
         }
     </style>
 </head>
@@ -299,7 +298,6 @@
     <div class="noise-overlay" vid="10"></div>
 
     <div class="artifact-container" vid="11">
-        
         <div class="notch notch-tl" vid="12"></div>
         <div class="notch notch-tr" vid="13"></div>
         <div class="notch notch-bl" vid="14"></div>
@@ -314,69 +312,68 @@
         <main class="main-content" vid="20">
             <header vid="21">
                 <div class="brand-block" vid="22">
-                    
+                    <div style="font-family: 'Archivo Black'; font-size: 0.8rem; opacity: 0.8;" vid="23">TERMINALLY ONLINE</div>
                 </div>
-                <div class="meta-data" vid="23">
-                    <div style="font-weight: 700; font-size: 0.7rem; color: #FFFFFF;" vid="24">KERNEL: V.2.0.24</div>
-                    <div style="font-size: 0.6rem; color: rgba(255,255,255,0.7);" vid="25">MEM_ALLOC: 4096GB/SEC</div>
+                <div class="meta-data" style="text-align: right;" vid="24">
+                    <div style="font-weight: 700; font-size: 0.8rem; color: #FFFFFF;" vid="25">KERNEL: V.2.0.24</div>
+                    <div style="font-size: 0.7rem; color: rgba(255,255,255,0.7);" vid="26">MEM_ALLOC: 4096GB/SEC</div>
                 </div>
             </header>
 
-            <section class="loading-hero" vid="26">
-                <div class="scanline-effect" vid="27"></div>
+            <section class="loading-hero" vid="27">
+                <div class="scanline-effect" vid="28"></div>
 
-                <h2 class="initializing-msg" vid="28">TERMINALLY<br vid="29">ONLINE<br vid="30">SOLUTIONS</h2>
+                <h1 class="initializing-msg" vid="29">TERMINALLY<br vid="30">ONLINE<br vid="31">SOLUTIONS</h1>
                 
-                <div class="progress-block" vid="31">
-                    <div class="progress-bar" vid="32"></div>
+                <div class="progress-block" vid="32">
+                    <div class="progress-bar" vid="33"></div>
+                </div>
+                <div id="catContainer" style="position: absolute; width: 100%; height: 100%; pointer-events: none;" vid="34"></div>
+
+                <div style="font-family: 'Space Mono', monospace; font-size: 1rem; font-weight: 700; text-align: center; margin-top: 1.5rem; color: #FFFFFF; z-index: 2;" vid="35">
+                    contact: <a href="mailto:crew@terminallyonline.solutions" style="color: #FFFFFF; text-decoration: underline;" vid="36">crew@terminallyonline.solutions</a>
                 </div>
 
-                <div id="catContainer" style="position: absolute; width: 100%; height: 100%; pointer-events: none;" vid="33"></div>
-
-                <div style="font-family: 'Space Mono', monospace; font-size: 1.2rem; font-weight: 700; text-align: center; margin-bottom: 2rem; color: #FFFFFF; padding: 0 1rem; word-wrap: break-word; overflow-wrap: break-word;" vid="34">
-                    contact: <a href="mailto:crew@terminallyonline.solutions" style="word-wrap: break-word; overflow-wrap: break-word;" vid="35">crew@terminallyonline.solutions</a>
-                </div>
-
-                <div class="status-feed" vid="36">
-                    <div class="feed-line" vid="37">
-                        <span vid="38">&gt; LOADING MEMETIC VECTORS</span>
-                        <span vid="39">[ OK ]</span>
+                <div class="status-feed" vid="37">
+                    <div class="feed-line" vid="38">
+                        <span vid="39">&gt; LOADING MEMETIC VECTORS</span>
+                        <span vid="40">[ OK ]</span>
                     </div>
-                    <div class="feed-line" vid="40">
-                        <span vid="41">&gt; ENGAGING COMMUNITY PROTOCOLS</span>
-                        <span style="animation: blink 0.5s step-end infinite alternate;" vid="42">[ IN PROGRESS ]</span>
+                    <div class="feed-line" vid="41">
+                        <span vid="42">&gt; ENGAGING COMMUNITY PROTOCOLS</span>
+                        <span vid="43">[ IN PROGRESS ]</span>
                     </div>
-                    <div class="feed-line" vid="43">
-                        <span vid="44">&gt; CALIBRATING VIRAL GROWTH</span>
-                        <span style="opacity: 0.5;" vid="45">[ PENDING ]</span>
+                    <div class="feed-line" vid="44">
+                        <span vid="45">&gt; CALIBRATING VIRAL GROWTH</span>
+                        <span vid="46">[ PENDING ]</span>
                     </div>
                 </div>
 
-                <div class="matrix-deco" vid="46">
-                    0x0001FF - STACK_TRACE_INIT<br vid="47">
-                    0x0002A1 - BUFFER_CLEAR_SUCCESS<br vid="48">
+                <div class="matrix-deco" vid="47">
+                    0x0001FF - STACK_TRACE_INIT<br vid="48">
+                    0x0002A1 - BUFFER_CLEAR_SUCCESS<br vid="49">
                     0x00045B - USER_ATTENTION_HOOKED
                 </div>
             </section>
 
-            <footer vid="49">
-                <div class="barcode-container" vid="50">
-                    <div class="barcode-block" vid="51"></div>
-                    <div style="font-size: 0.6rem; letter-spacing: 2px; margin-top: 8px; color: #FFFFFF; text-align: center;" vid="52">SYS_ID: 992-INIT-MOB-01</div>
+            <footer vid="50">
+                <div class="barcode-container" vid="51">
+                    <div class="barcode-block" vid="52"></div>
+                    <div style="font-size: 0.7rem; letter-spacing: 3px; margin-top: 5px; color: #FFFFFF;" vid="53">SYS_ID: 992-INIT-001</div>
                 </div>
-                <div class="contact-block" style="text-align: center; padding: 0 1rem;" vid="53">
-                    <div style="font-family: 'Archivo Black'; font-size: 0.8rem; transform: scaleX(1.2); color: #FFFFFF; margin-bottom: 0.5rem;" vid="54">CONTACT</div>
-                    <div style="font-weight: 700; font-size: 0.75rem; color: #FFFFFF; word-wrap: break-word; overflow-wrap: break-word;" vid="55">crew@terminallyonline.solutions</div>
+                <div class="contact-block" style="display: flex; flex-direction: column; align-items: flex-end; gap: 0.3rem;" vid="54">
+                    <div style="font-family: 'Archivo Black'; font-size: 0.9rem; transform: scaleX(1.2); color: #FFFFFF;" vid="55">CONTACT</div>
+                    <div style="font-weight: 700; font-size: 0.75rem; color: #FFFFFF;" vid="56">crew@terminallyonline.solutions</div>
                 </div>
             </footer>
         </main>
 
-        <div class="gutter right" vid="56">
-            <span class="vertical-text" vid="57">DECRYPTING PROTOCOL // REF_00</span>
+        <div class="gutter right" vid="57">
+            <span class="vertical-text" vid="58">DECRYPTING PROTOCOL // REF_00</span>
         </div>
     </div>
 
-    <script vid="58">
+    <script vid="59">
         setTimeout(() => {
             const container = document.getElementById('catContainer');
             const cats = ['😸', '😺', '😻', '😽', '🐱', '🐈', '😹', '😼'];
@@ -396,7 +393,7 @@
                 
                 cat.style.setProperty('--tx', `${tx}px`);
                 cat.style.setProperty('--ty', `${ty}px`);
-                cat.style.animationDelay = `${4 + (i * 0.05)}s`;
+                cat.style.animationDelay = `${4 + (i * 0.02)}s`;
                 
                 container.appendChild(cat);
             }
