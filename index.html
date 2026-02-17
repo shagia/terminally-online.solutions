@@ -7,10 +7,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&amp;family=Space+Mono:ital,wght@0,400;0,700;1,400&amp;display=swap" rel="stylesheet" vid="7">
     <style vid="8">
         :root {
-            --bg-color: #050505;
-            --paper-color: #A8E000; 
-            --ink-color: #12140A;   
-            --border-style: 2px dashed var(--ink-color);
+            --bg-color: #000000;
+            --paper-color: #0044FF; 
+            --ink-color: #FFFFFF;   
+            --border-style: 2px dashed rgba(255, 255, 255, 0.4);
             --border-solid: 3px solid var(--ink-color);
         }
 
@@ -41,7 +41,7 @@
             height: 100vh;
             pointer-events: none;
             z-index: 9999;
-            opacity: 0.15;
+            opacity: 0.12;
             background: url('data:image/svg+xml;utf8,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)"/%3E%3C/svg%3E');
         }
 
@@ -50,7 +50,7 @@
             height: 1024px;
             background-color: var(--paper-color);
             position: relative;
-            box-shadow: 0 0 50px rgba(226, 240, 99, 0.1);
+            box-shadow: 0 0 80px rgba(0, 68, 255, 0.3);
             display: grid;
             grid-template-columns: 60px 1fr 60px;
             animation: subtleShake 0.15s steps(2) infinite;
@@ -83,6 +83,7 @@
             align-items: center;
             justify-content: center;
             padding: 1rem 0;
+            background-color: rgba(0,0,0,0.05);
         }
         .gutter.right {
             border-right: none;
@@ -97,6 +98,7 @@
             letter-spacing: 4px;
             white-space: nowrap;
             transform: rotate(180deg);
+            color: var(--ink-color);
         }
 
         .main-content {
@@ -139,8 +141,8 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: 10px;
-            background: rgba(18, 20, 10, 0.1);
+            height: 12px;
+            background: rgba(255, 255, 255, 0.15);
             animation: scan 3s linear infinite;
             z-index: 1;
         }
@@ -160,6 +162,7 @@
             transform: scaleX(1.1);
             animation: subtleGlitch 5s steps(2) infinite;
             position: relative;
+            color: var(--ink-color);
         }
 
         .initializing-msg::before,
@@ -175,12 +178,12 @@
 
         .initializing-msg::before {
             animation: staticFlicker1 0.5s steps(1) infinite;
-            text-shadow: 1px 0 0 var(--ink-color);
+            text-shadow: 1px 0 0 #00FFFF;
         }
 
         .initializing-msg::after {
             animation: staticFlicker2 0.6s steps(1) infinite;
-            text-shadow: -1px 0 0 var(--ink-color);
+            text-shadow: -1px 0 0 #FF00FF;
         }
 
         @keyframes subtleGlitch {
@@ -193,13 +196,13 @@
 
         @keyframes staticFlicker1 {
             0%, 88% { opacity: 0; }
-            89%, 91% { opacity: 0.08; }
+            89%, 91% { opacity: 0.15; }
             92%, 100% { opacity: 0; }
         }
 
         @keyframes staticFlicker2 {
             0%, 85% { opacity: 0; }
-            86%, 88% { opacity: 0.06; }
+            86%, 88% { opacity: 0.12; }
             89%, 100% { opacity: 0; }
         }
 
@@ -214,21 +217,9 @@
         }
 
         @keyframes explodeBlock {
-            0% { 
-                transform: scale(1);
-                opacity: 1;
-                border-color: var(--ink-color);
-            }
-            50% { 
-                transform: scale(1.2);
-                opacity: 0.6;
-                border-color: transparent;
-            }
-            100% { 
-                transform: scale(2);
-                opacity: 0;
-                border-color: transparent;
-            }
+            0% { transform: scale(1); opacity: 1; border-color: var(--ink-color); }
+            50% { transform: scale(1.2); opacity: 0.6; border-color: transparent; }
+            100% { transform: scale(2); opacity: 0; border-color: transparent; }
         }
 
         .progress-bar {
@@ -248,18 +239,9 @@
         }
 
         @keyframes explodeBar {
-            0% { 
-                transform: scale(1);
-                opacity: 1;
-            }
-            50% { 
-                transform: scale(1.5, 3);
-                opacity: 0.8;
-            }
-            100% { 
-                transform: scale(3, 0.5);
-                opacity: 0;
-            }
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.5, 3); opacity: 0.8; }
+            100% { transform: scale(3, 0.5); opacity: 0; }
         }
 
         .cat-particle {
@@ -267,21 +249,13 @@
             font-size: 2rem;
             animation: catExplode 1.5s ease-out forwards;
             opacity: 0;
+            filter: drop-shadow(0 0 5px rgba(255,255,255,0.5));
         }
 
         @keyframes catExplode {
-            0% {
-                opacity: 1;
-                transform: translate(0, 0) rotate(0deg) scale(0.5);
-            }
-            50% {
-                opacity: 1;
-                transform: translate(var(--tx), var(--ty)) rotate(360deg) scale(1.2);
-            }
-            100% {
-                opacity: 0;
-                transform: translate(calc(var(--tx) * 2), calc(var(--ty) * 2)) rotate(720deg) scale(0.8);
-            }
+            0% { opacity: 1; transform: translate(0, 0) rotate(0deg) scale(0.5); }
+            50% { opacity: 1; transform: translate(var(--tx), var(--ty)) rotate(360deg) scale(1.2); }
+            100% { opacity: 0; transform: translate(calc(var(--tx) * 2), calc(var(--ty) * 2)) rotate(720deg) scale(0.8); }
         }
 
         .status-feed {
@@ -296,12 +270,12 @@
             display: flex;
             justify-content: space-between;
             padding: 0.5rem 0;
-            border-bottom: 1px dashed var(--ink-color);
+            border-bottom: 1px dashed rgba(255,255,255,0.3);
             animation: blink 0.5s step-end infinite alternate;
         }
 
         @keyframes blink {
-            50% { opacity: 0.5; }
+            50% { opacity: 0.4; }
         }
 
         .matrix-deco {
@@ -309,8 +283,9 @@
             bottom: 4rem;
             left: 4rem;
             font-size: 0.7rem;
-            opacity: 0.4;
+            opacity: 0.5;
             line-height: 1.2;
+            color: var(--ink-color);
         }
 
         .stamp-loading {
@@ -332,6 +307,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            background-color: rgba(0,0,0,0.05);
         }
 
         .barcode-block {
@@ -373,15 +349,14 @@
                     
                 </div>
                 <div class="meta-data" style="text-align: right;" vid="23">
-                    <div style="font-weight: 700; font-size: 0.8rem;" vid="24">KERNEL: V.2.0.24</div>
-                    <div style="font-size: 0.7rem;" vid="25">MEM_ALLOC: 4096GB/SEC</div>
+                    <div style="font-weight: 700; font-size: 0.8rem; color: #FFFFFF;" vid="24">KERNEL: V.2.0.24</div>
+                    <div style="font-size: 0.7rem; color: rgba(255,255,255,0.7);" vid="25">MEM_ALLOC: 4096GB/SEC</div>
                 </div>
             </header>
 
             <section class="loading-hero" vid="26">
                 <div class="scanline-effect" vid="27"></div>
 
-                
                 <h2 class="initializing-msg" vid="28">TERMINALLY<br vid="29">ONLINE<br vid="30">SOLUTIONS</h2>
                 
                 <div class="progress-block" vid="31">
@@ -415,7 +390,7 @@
                     }, 100);
                 </script>
 
-                <div style="font-family: 'Space Mono', monospace; font-size: 1.2rem; font-weight: 700; text-align: center; margin-top: 2rem;" vid="35">contact: <a href="mailto:crew@terminallyonline.solutions" style="color: inherit; text-decoration: underline;" vid="36">crew@terminallyonline.solutions</a></div>
+                <div style="font-family: 'Space Mono', monospace; font-size: 1.2rem; font-weight: 700; text-align: center; margin-top: 2rem; color: #FFFFFF;" vid="35">contact: <a href="mailto:crew@terminallyonline.solutions" style="color: #FFFFFF; text-decoration: underline;" vid="36">crew@terminallyonline.solutions</a></div>
 
                 <div class="status-feed" vid="37">
                     <div class="feed-line" vid="38">
@@ -442,11 +417,11 @@
             <footer vid="50">
                 <div class="barcode-container" vid="51">
                     <div class="barcode-block" vid="52"></div>
-                    <div style="font-size: 0.7rem; letter-spacing: 3px; margin-top: 5px;" vid="53">SYS_ID: 992-INIT-001</div>
+                    <div style="font-size: 0.7rem; letter-spacing: 3px; margin-top: 5px; color: #FFFFFF;" vid="53">SYS_ID: 992-INIT-001</div>
                 </div>
                 <div class="contact-block" style="display: flex; flex-direction: column; align-items: flex-end; gap: 0.5rem;" vid="54">
-                    <div style="font-family: 'Archivo Black'; font-size: 1rem; transform: scaleX(1.2);" vid="55">CONTACT</div>
-                    <div style="font-weight: 700; font-size: 0.85rem;" vid="56">crew@terminallyonline.solutions</div>
+                    <div style="font-family: 'Archivo Black'; font-size: 1rem; transform: scaleX(1.2); color: #FFFFFF;" vid="55">CONTACT</div>
+                    <div style="font-weight: 700; font-size: 0.85rem; color: #FFFFFF;" vid="56">crew@terminallyonline.solutions</div>
                 </div>
             </footer>
         </main>
